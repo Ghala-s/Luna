@@ -33,7 +33,10 @@ struct RegisterView: View {
 
             Button("Register") {
                 if let userAge = Int(age) {
-                    userProfileStore.registerUser(username: username, password: password, name: name, age: userAge)
+                    Button("Register") {
+                        userProfileStore.register(username: username, password: password, age: Int(age) ?? 0)
+                    }
+
                 }
             }
             .padding()

@@ -43,4 +43,19 @@ class UserProfileStore: ObservableObject {
             print("No saved user profile found or error loading: \(error)")
         }
     }
+     func register(username: String, password: String, age: Int) {
+        let newUser = UserProfile(username: username, password: password, age: age)
+        self.currentUser = newUser
+        print("User registered: \(username), Age: \(age)")
+    }
+
+    func authenticate(username: String, password: String) -> Bool {
+        if let user = currentUser, user.username == username && user.password == password {
+            print("Login successful")
+            return true
+        }
+        print("Login failed")
+        return false
+    }
+
 }
