@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luna Chat</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <img src="assets/penguin.png" class="mascot" alt="Luna Mascot">
+        
+        <div id="login-section">
+            <h1>Welcome to Luna Chat</h1>
+            <input type="text" id="login-username" placeholder="Username" required>
+            <input type="password" id="login-password" placeholder="Password" required>
+            <button onclick="login()">Sign In</button>
+            <p>Don't have an account? <a href="#" onclick="showRegister()">Register</a></p>
+            <p id="login-error" class="error"></p>
+        </div>
+
+        <div id="register-section" style="display: none;">
+            <h1>Register</h1>
+            <input type="text" id="register-username" placeholder="Username" required>
+            <input type="password" id="register-password" placeholder="Password" required>
+            <input type="text" id="register-name" placeholder="Full Name" required>
+            <input type="number" id="register-age" placeholder="Age" required>
+            <button onclick="register()">Register</button>
+            <p>Already have an account? <a href="#" onclick="showLogin()">Login</a></p>
+            <p id="register-error" class="error"></p>
+        </div>
+
+        <div id="chat-section" style="display: none;">
+            <h1 id="chat-user"></h1>
+            <p id="current-time"></p>
+        
+            <div id="chat-container" style="height: 300px; overflow-y: auto;"></div> 
+        
+            <input type="text" id="message-input" placeholder="Type a message...">
+            <button onclick="sendMessage()">Send</button>
+            <button onclick="logout()">Logout</button>
+        </div>
+        
+        
+    </div>
+
+    <script src="app.js"></script>
+    <script src="chatbot.js"></script>
+
+</body>
+</html>
