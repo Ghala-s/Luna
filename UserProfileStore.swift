@@ -4,16 +4,17 @@
 //
 //  Created by Prabhjot Kaur on 2025-03-21.
 //
-
 import Foundation
 
 class UserProfileStore: ObservableObject {
-    @Published var userProfile: UserProfile {
+    @Published var userProfile: UserProfile? {
         didSet {
-            saveProfile()
+            if let profile = userProfile {
+                saveProfile(profile)
+            }
         }
     }
-     @Published var currentUser: UserProfile?
+     
     init() {
         self.userProfile = nil
         loadProfile()
@@ -24,9 +25,9 @@ class UserProfileStore: ObservableObject {
         return documentDirectory.appendingPathComponent("user_profile.json")
     }
     
-    private func saveProfile() {
+    private func saveProfile(_ profile: UserProfile) {
         do {
-            let data = try JSONEncoder().encode(userProfile)
+            let data = try JSONEncoder().encode(profile)
             try data.write(to: getFileURL())
         } catch {
             print("Error saving user profile: \(error)")
@@ -43,19 +44,19 @@ class UserProfileStore: ObservableObject {
             print("No saved user profile found or error loading: \(error)")
         }
     }
-     func register(username: String, password: String, age: Int) {
+    
+    func register(username: String, password: String, age: Int) {
         let newUser = UserProfile(username: username, password: password, age: age)
-        self.currentUser = newUser
+        self.userProfile = newUser
         print("User registered: \(username), Age: \(age)")
     }
 
-    func authenticate(username: String, password: String) -> Bool {
-        if let user = currentUser, user.username == username && user.password == password {
+    func authenticateUser(username: String, password: String) -> Bool {
+        if let user = userProfile, user.username == username && user.password == password {
             print("Login successful")
             return true
         }
         print("Login failed")
         return false
     }
-
 }

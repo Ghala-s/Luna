@@ -6,6 +6,8 @@ struct LoginView: View {
     @StateObject private var userProfileStore = UserProfileStore()
     @State private var showChat = false
     @State private var showRegister = false
+    @State private var showAlert = false
+    @State private var alertMessage = ""
 
     var body: some View {
         VStack {
@@ -31,7 +33,8 @@ struct LoginView: View {
                 if userProfileStore.authenticateUser(username: username, password: password) {
                     showChat = true
                 } else {
-                    print("Invalid Credentials")
+                    alertMessage = "Invalid username or password"
+                    showAlert = true
                 }
             }
             .padding()
@@ -46,10 +49,13 @@ struct LoginView: View {
         }
         .background(LinearGradient(gradient: Gradient(colors: [Color.black, Color.purple]), startPoint: .topLeading, endPoint: .bottomTrailing))
         .fullScreenCover(isPresented: $showChat) {
-            ChatView()
+            ContentView().environmentObject(userProfileStore)
         }
         .fullScreenCover(isPresented: $showRegister) {
             RegisterView()
+        }
+        .alert(alertMessage, isPresented: $showAlert) {
+            Button("OK", role: .cancel) { }
         }
     }
 }

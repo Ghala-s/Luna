@@ -10,7 +10,14 @@ struct ChatView: View {
     @State private var messages: [Message] = []
     @State private var inputText: String = ""
     @State private var isLoading = false
-    @StateObject private var userProfileStore = UserProfileStore()
+    @ObservedObject var userProfileStore: UserProfileStore
+    @ObservedObject var historyStore: MedicalHistoryStore
+    
+    // Add these default parameters for preview and backward compatibility
+    init(historyStore: MedicalHistoryStore = MedicalHistoryStore(), userProfileStore: UserProfileStore = UserProfileStore()) {
+        self.historyStore = historyStore
+        self.userProfileStore = userProfileStore
+    }
 
     var body: some View {
         VStack {
@@ -72,7 +79,11 @@ struct ChatView: View {
         inputText = ""
         isLoading = true
 
-        OpenAIService.shared.sendMessage(prompt: userMessage.content) { response in
+        OpenAIService.shared.sendMessage(
+            prompt: userMessage.content,
+            historyStore: historyStore,
+            userProfileStore: userProfileStore
+        ) { response in
             DispatchQueue.main.async {
                 let botReply = Message(sender: "Luna", content: response)
                 messages.append(botReply)
