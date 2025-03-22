@@ -16,7 +16,7 @@ struct ContentView: View {
                     }
 
                 // Chatbot Tab
-                ChatView()
+                ChatView(historyStore: historyStore, userProfileStore: userProfileStore)
                     .tabItem {
                         Label("Chat", systemImage: "message.fill")
                     }

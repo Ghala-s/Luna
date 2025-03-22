@@ -15,7 +15,7 @@ class UserProfileStore: ObservableObject {
     }
      @Published var currentUser: UserProfile?
     init() {
-        self.userProfile = UserProfile() 
+        self.userProfile = nil
         loadProfile()
     }
     
