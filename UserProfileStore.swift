@@ -13,7 +13,7 @@ class UserProfileStore: ObservableObject {
             saveProfile()
         }
     }
-    
+     @Published var currentUser: UserProfile?
     init() {
         self.userProfile = UserProfile() 
         loadProfile()
